@@ -5,7 +5,7 @@ const app = express()
 
 // create route handler and associate with the route
 app.get('/', (req, res) => {
-    res.send({hi: 'there'})
+    res.send({lala: ';a;a;a'})
 })
 
 // heroku injects environment variables telling us what port is dynamically set
