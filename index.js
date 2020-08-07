@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const keys = require('./config/keys')
 require('./services/passport')
 
+// mongoose is interacting with MongoDB
 mongoose.connect(keys.mongoURI, { useUnifiedTopology: true, useNewUrlParser: true })
 
 const app = express()
