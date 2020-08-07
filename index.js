@@ -1,6 +1,6 @@
 const express = require('express')
 const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth20')
+const GoogleStrategy = require('passport-google-oauth20').Strategy
 const keys = require('./keys')
 
 // generates a new application, used to setup config to listen to incoming requests and directing them to the right handler
@@ -18,9 +18,14 @@ passport.use(
         // has to be ID not Id!!!
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
-        callbackURL: 'google/callback'
-    }, accessToken => {
-        console.log(accessToken)
+        callbackURL: '/auth/google/callback'
+        // the following arrow function gets executed after we get the token back after line 36
+        // we can include more arguments, not just the access token
+    }, (accessToken, refreshToken, profile, done) => {
+        console.log('access token: ', accessToken)
+        console.log('refresh token: ', refreshToken)
+        console.log('profile: ', profile)
+        console.log('done: ', done)
     })
 )
 
@@ -33,6 +38,10 @@ app.get('/auth/google', passport.authenticate(
     }
 ))
 
+// at this point we have the code and passport will handle the token/code
+app.get('/auth/google/callback', passport.authenticate('google'))
+
 // heroku injects environment variables telling us what port is dynamically set
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
+// something new here to test nodemon
