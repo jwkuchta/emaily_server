@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const keys = require('./config/keys')
+require('./models/User') // the order of these two statements matters
 require('./services/passport')
 
 // mongoose is interacting with MongoDB
