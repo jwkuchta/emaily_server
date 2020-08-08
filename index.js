@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const cookiesSession = require('cookie-session') // we need to tell passport to keep track of cookies
 const passport = require('passport')
 const keys = require('./config/keys')
-require('./models/user') // the order of these two matters
+require('./models/User') // the order of these two matters
 require('./services/passport')
 
 // mongoose is interacting with MongoDB
