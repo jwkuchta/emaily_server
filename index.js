@@ -11,14 +11,17 @@ mongoose.connect(keys.mongoURI, { useUnifiedTopology: true, useNewUrlParser: tru
 
 const app = express()
 
+// app.use wires up middleware
 app.use(cookiesSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [keys.cookieKey]
 }))
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 // instead of saving it in a variable we call it immediately with app
 require('./routes/authRoutes')(app)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
-
