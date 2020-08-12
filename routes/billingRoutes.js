@@ -1,11 +1,12 @@
 const keys = require('../config/keys')
+const requireLogin = require('../middlewares/requireLogin')
 const stripe = require('stripe')(keys.stripeSecretKey)
 
 module.exports = app => {
-    app.post('/api/stripe', async (req, res) => {
-        if (!req.user) {
-            return res.status(401).send({ error: 'You must log in to buy credits'})
-        }
+    // we are not calling requireLogin but rather giving express a reference
+    // we can put as many arguments/middlewares as we want but we have to make sure
+    // one of them eventually returns a req and res and handle those
+    app.post('/api/stripe', requireLogin, async (req, res) => {
         const charge = await stripe.charges.create({
             amount: 500,
             currency: 'usd',
