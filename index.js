@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const cookiesSession = require('cookie-session') // we need to tell passport to keep track of cookies
 const passport = require('passport')
 const keys = require('./config/keys')
+const bodyParser = require('body-parser') // this is middleware
 require('./models/user') // the order of these two matters
 require('./services/passport')
 
@@ -10,6 +11,8 @@ require('./services/passport')
 mongoose.connect(keys.mongoURI, { useUnifiedTopology: true, useNewUrlParser: true })
 
 const app = express()
+
+app.use(bodyParser.json())
 
 // app.use wires up middleware
 app.use(cookiesSession({
@@ -22,6 +25,7 @@ app.use(passport.session())
 
 // instead of saving it in a variable we call it immediately with app
 require('./routes/authRoutes')(app)
+require('./routes/billingRoutes')(app)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
