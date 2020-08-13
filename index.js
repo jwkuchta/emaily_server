@@ -30,7 +30,7 @@ require('./routes/billingRoutes')(app)
 // new code that will run on heroku and handle react routes
 if (process.env.NODE_ENV === 'production') {
     // express will serve up production assets
-    app.user(express.static('client/build'))
+    app.use(express.static('client/build'))
     // express will serve up the index.html file if it does not recognize the route
     const path = require('path')
     app.get('*', (req, res) => {
