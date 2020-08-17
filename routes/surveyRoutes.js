@@ -17,6 +17,5 @@ module.exports = app => {
             dateSent: Date.now()
         })
     })
-
-    next()
 }
+

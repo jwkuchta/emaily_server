@@ -1,5 +1,5 @@
 import { FETCH_USER } from "../actions/types"
-import { bindActionCreators } from "redux"
+// import { bindActionCreators } from "redux"
 
 export default function(state = null, action) {
     console.log(action.payload)
