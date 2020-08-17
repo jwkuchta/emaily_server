@@ -6,6 +6,7 @@ const keys = require('./config/keys')
 const bodyParser = require('body-parser') // this is middleware
 require('./models/user') // the order of these two matters
 require('./models/survey')
+
 require('./services/passport')
 
 // mongoose is interacting with MongoDB
