@@ -28,6 +28,7 @@ app.use(passport.session())
 // instead of saving it in a variable we call it immediately with app
 require('./routes/authRoutes')(app)
 require('./routes/billingRoutes')(app)
+require('./routes/surveyRoutes')(app)
 
 // new code that will run on heroku and handle react routes
 if (process.env.NODE_ENV === 'production') {
