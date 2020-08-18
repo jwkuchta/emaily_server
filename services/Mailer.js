@@ -54,11 +54,12 @@
 // module.exports = Mailer;
 
 const sgMail = require("@sendgrid/mail")
+const keys = require('../config/keys')
 
 class Mailer {
   constructor({ subject, recipients }, content) {
-    // sgMail.setApiKey(keys.sendGridKey) // 
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+    sgMail.setApiKey(keys.sendgridApiKey) // 
+    // sgMail.setApiKey(process.env.SENDGRID_API_KEY)
     this.msg = {
       to: recipients.map(({ email }) => email),
       from: "justyna.kuchta@gmail.com",
