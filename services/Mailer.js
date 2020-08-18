@@ -1,12 +1,12 @@
-const sendgrid = require('sendgrid');
-const helper = sendgrid.mail;
-const keys = require('../config/keys');
+const sendgrid = require('sendgrid')
+const helper = sendgrid.mail
+const keys = require('../config/keys')
  
 class Mailer extends helper.Mail {
   constructor({ subject, recipients }, content) {
-    super();
+    super()
  
-    this.sgApi = sendgrid(keys.sendgridApiKey);
+    this.sendgridApi = sendgrid(process.env.SENDGRID_API_KEY);
     this.from_email = new helper.Email('justyna.kuchta@gmail.com');
     this.subject = subject;
     this.body = new helper.Content('text/html', content);
@@ -40,13 +40,13 @@ class Mailer extends helper.Mail {
   }
  
   async send() {
-    const request = this.sgApi.emptyRequest({
+    const request = this.sendgridApi.emptyRequest({
       method: 'POST',
       path: '/v3/mail/send',
       body: this.toJSON(),
     });
  
-    const response = await this.sgApi.API(request);
+    const response = await this.sendgridApi.API(request);
     return response;
   }
 }
