@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { FIELDS } from './formFields'
 import * as actions from '../../actions/index'
 
-const SurveyReview = ({ onCancel, formValues }) => {
+const SurveyReview = ({ onCancel, formValues, submitSurvey }) => {
 
     const renderReviewFields = () => {
         return _.map(FIELDS, field => {
@@ -15,6 +15,12 @@ const SurveyReview = ({ onCancel, formValues }) => {
         })
     }
 
+    const handleClick = () => {
+        debugger
+        console.log(formValues)
+        submitSurvey(formValues)
+    }
+
     return (
         <div>
             <h5>Please review the form before submitting</h5>
@@ -23,7 +29,7 @@ const SurveyReview = ({ onCancel, formValues }) => {
                 Back
             </button>
             <button 
-            onClick={() => actions.submitSurvey(formValues)}
+            onClick={() => submitSurvey(formValues)}
             className="green btn-flat right white-text">
                 Send Survey
                 <i className="material-icons right">email</i>
