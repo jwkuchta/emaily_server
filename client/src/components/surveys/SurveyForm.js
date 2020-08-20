@@ -6,26 +6,9 @@ import { Link } from 'react-router-dom'
 import { reduxForm, Field } from 'redux-form' 
 import SurveyField from './SurveyField'
 import { validateEmails } from '../../utils/validateEmails'
-
-const FIELDS = [
-    {label: 'Survey Title', name: 'title'},
-    {label: 'Subject Line', name: 'subject'},
-    {label: 'Email Body', name: 'email'},
-    {label: 'Recipient List', name: 'emails'}
-]
+import { FIELDS } from './formFields'
 
 class SurveyForm extends Component {
-
-    // renderFields() {
-    //     return (
-    //         <div>
-    //             <Field type="text" name="title" component={SurveyField} label="Survey Title"/>
-    //             <Field type="text" name="subject" component={SurveyField} label="Subject Line"/>
-    //             <Field type="text" name="email" component={SurveyField} label="Email Body"/>
-    //             <Field type="text" name="emails" component={SurveyField} label="Recipient List"/>
-    //         </div>
-    //     )
-    // }
 
     // to DRY out the renderFields function:
     renderFields = () => {
@@ -66,6 +49,7 @@ const validate = (values) => {
 
 // reduxForm only takes one argument
 export default reduxForm({
-    form: 'surveyForm',
-    validate: validate // validate needs to return an object of errors and if all is well, it will be empty
+    form: 'surveyForm', // this becomes a key in the redux-form state
+    validate: validate, // validate needs to return an object of errors and if all is well, it will be empty
+    destroyOnUnmount: false // this will prevent the form from getting cleared when we use the "back" button
 })(SurveyForm)
