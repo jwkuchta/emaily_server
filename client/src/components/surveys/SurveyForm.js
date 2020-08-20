@@ -50,7 +50,18 @@ class SurveyForm extends Component {
     }
 }
 
+const validate = (values) => {
+    const errors = {}
+
+    if (!values.title) {
+        error.title = "Title cannot be blank"
+    }
+
+    return errors
+}
+
 // reduxForm only takes one argument
 export default reduxForm({
-    form: 'surveyForm'
+    form: 'surveyForm',
+    validate: validate // validate needs to return an object of errors and if all is well, it will be empty
 })(SurveyForm)
