@@ -3,8 +3,9 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import { FIELDS } from './formFields'
 import * as actions from '../../actions/index'
+import { withRouter } from 'react-router-dom'
 
-const SurveyReview = ({ onCancel, formValues, submitSurvey }) => {
+const SurveyReview = ({ onCancel, formValues, submitSurvey, history }) => {
 
     const renderReviewFields = () => {
         return _.map(FIELDS, field => {
@@ -29,7 +30,7 @@ const SurveyReview = ({ onCancel, formValues, submitSurvey }) => {
                 Back
             </button>
             <button 
-            onClick={() => submitSurvey(formValues)}
+            onClick={() => submitSurvey(formValues, history)}
             className="green btn-flat right white-text">
                 Send Survey
                 <i className="material-icons right">email</i>
@@ -43,4 +44,5 @@ const mapSTP = state => {
     return { formValues: state.form.surveyForm.values }
 }
 
-export default connect(mapSTP, actions)(SurveyReview)
+export default connect(mapSTP, actions)(withRouter(SurveyReview))
+// withRouter provides the history object
