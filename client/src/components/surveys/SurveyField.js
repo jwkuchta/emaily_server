@@ -2,11 +2,12 @@
 
 import React from 'react'
 
-const SurveyField = ({ input }) =>  {
-    console.log(input) // reduxForm
+const SurveyField = ({ input, label }) =>  { // input comes form reduxForm
+
     return (
         <div>
-            <input {...input} />
+            <label>{label}</label>
+            <input {...input} /> 
         </div>
     )
 }
