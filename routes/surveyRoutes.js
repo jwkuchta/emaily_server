@@ -14,9 +14,8 @@ module.exports = app => {
     // we don't need a list of recipients for this query and it might not matter on a small scale
     // but we can also tell MondoDB and Mongoose not to pull out the list of recipients with query#select (mongoose API)
     app.get('/api/surveys', requireLogin, async (req, res) => {
-        const surveys = await Survey.find({ _user: req.user.id })
-        const filtered = surveys.select({ recipients: false })
-        res.send(filtered)
+        const surveys = await Survey.find({ _user: req.user.id }).select({ recipients: false })
+        res.send(surveys)
     })
 
     app.get('/api/surveys/:surveyId/:choice', (req, res) => {
