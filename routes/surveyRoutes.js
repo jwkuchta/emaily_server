@@ -11,7 +11,7 @@ const Survey = mongoose.model('surveys')
 
 module.exports = app => {
 
-    app.get('/api/surveys/thanks', (req, res) => {
+    app.get('/api/surveys/:surveyId/:choice', (req, res) => {
         res.send('Thanks for your feedback!')
     })
 
@@ -43,8 +43,10 @@ module.exports = app => {
         }, 
         {
             $inc: { [event.choice]: 1 },
-            $set: { 'recipients.$.responded': true}
-        }).exec()
+            $set: { 'recipients.$.responded': true},
+            lastResponded: new Date()
+        })
+        .exec()
     }
 
 
