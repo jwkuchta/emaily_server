@@ -30,6 +30,23 @@ module.exports = app => {
     //     res.send({})
     // })
 
+    // this is not asynchronous because SendGrid doesn't need anything back
+    const findAndUpdateSurvey = event => {
+        const choice = 'yes' || 'no'
+
+        // this is a MongoDB query
+        Survey.updateOne({
+            _id: event.surveyId, // this is how it is saved in MongoDB, mongoose lets you use 'id'
+            recipients: {
+                $elemMatch: { email: event.email, responded: false }
+            }  
+        }, 
+        {
+            $inc: { [event.choice]: 1 },
+            $set: { 'recipients.$.responded': true}
+        }).exec()
+    }
+
 
     // refactored with the chain method provided by lodash to avoid creating variables unnecessarily
     app.post('/api/surveys/webhooks', (req, res) => {
@@ -43,13 +60,10 @@ module.exports = app => {
         })
         .compact()
         .uniqBy('email', 'surveyId')
+        .each(event => findAndUpdateSurvey(event))
         .value()
-        console.log('req.body', req.body)
-        console.log('events', events)
         res.send({})
     })
-
- 
 
     app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
         const { title, subject, body, recipients } = req.body
@@ -78,3 +92,5 @@ module.exports = app => {
         }
     })
 }
+
+
