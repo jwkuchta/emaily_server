@@ -16,12 +16,6 @@ const SurveyReview = ({ onCancel, formValues, submitSurvey, history }) => {
         })
     }
 
-    const handleClick = () => {
-        debugger
-        console.log(formValues)
-        submitSurvey(formValues)
-    }
-
     return (
         <div>
             <h5>Please review the form before submitting</h5>
