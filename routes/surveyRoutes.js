@@ -15,23 +15,41 @@ module.exports = app => {
         res.send('Thanks for your feedback!')
     })
 
+    // app.post('/api/surveys/webhooks', (req, res) => {
+    //     const events = _.map(req.body, event => {
+    //         const pathname = new URL(event.url).pathname
+    //         const p = new Path('/api/surveys/:surveyId/:choice')
+    //         const match = p.test(pathname)
+    //         if (match) {
+    //             return { email: event.email, surveyId: match.surveyId, choice: match.choice }
+    //         }
+    //     })
+    //     const compactEvents = _.compact(events)
+    //     const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId')
+    //     console.log(uniqueEvents)
+    //     res.send({})
+    // })
+
+
+    // refactored with the chain method provided by lodash to avoid creating variables unnecessarily
     app.post('/api/surveys/webhooks', (req, res) => {
-        const events = _.map(req.body, event => {
-            const pathname = new URL(event.url).pathname
-            const p = new Path('/api/surveys/:surveyId/:choice')
-            const match = p.test(pathname)
+        const p = new Path('/api/surveys/:surveyId/:choice')
+        const events = _.chain(req.body)
+        .map(({ email, url }) => { 
+            const match = p.test(new URL(url).pathname)
             if (match) {
-                return { email: event.email, surveyId: match.surveyId, choice: match.choice }
+                return { email, surveyId: match.surveyId, choice: match.choice }
             }
         })
-
-        const compactEvents = _.compact(events)
-        const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId')
-
-        console.log(uniqueEvents)
-
+        .compact()
+        .uniqBy('email', 'surveyId')
+        .value()
+        console.log('req.body', req.body)
+        console.log('events', events)
         res.send({})
     })
+
+ 
 
     app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
         const { title, subject, body, recipients } = req.body
